@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		FC16964321D1F8C100C48487 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC16964221D1F8C100C48487 /* AppDelegate.swift */; };
-		FC16964521D1F8C100C48487 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC16964421D1F8C100C48487 /* ViewController.swift */; };
 		FC16964821D1F8C100C48487 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC16964621D1F8C100C48487 /* Main.storyboard */; };
 		FC16964A21D1F8C300C48487 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC16964921D1F8C300C48487 /* Assets.xcassets */; };
 		FC16964D21D1F8C300C48487 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC16964B21D1F8C300C48487 /* LaunchScreen.storyboard */; };
@@ -16,6 +15,8 @@
 		FC16966F21D1F9AE00C48487 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC16966021D1F98500C48487 /* SQLite.framework */; };
 		FC16967021D1F9AE00C48487 /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FC16966021D1F98500C48487 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FC16967821D3230D00C48487 /* msds.db in Resources */ = {isa = PBXBuildFile; fileRef = FC16967721D3230D00C48487 /* msds.db */; };
+		FCBBC87E21D3481C00902152 /* MSDSTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBBC87D21D3481C00902152 /* MSDSTableViewController.swift */; };
+		FCBBC88221D5F90B00902152 /* FileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBBC88121D5F90B00902152 /* FileTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,13 +95,14 @@
 /* Begin PBXFileReference section */
 		FC16963F21D1F8C100C48487 /* MSDS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MSDS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC16964221D1F8C100C48487 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FC16964421D1F8C100C48487 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		FC16964721D1F8C100C48487 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FC16964921D1F8C300C48487 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FC16964C21D1F8C300C48487 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FC16964E21D1F8C300C48487 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FC16965521D1F98400C48487 /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = "../../Desktop/SQLite.swift-master/SQLite.xcodeproj"; sourceTree = "<group>"; };
 		FC16967721D3230D00C48487 /* msds.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = msds.db; path = ../../../example/msds.db; sourceTree = "<group>"; };
+		FCBBC87D21D3481C00902152 /* MSDSTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDSTableViewController.swift; sourceTree = "<group>"; };
+		FCBBC88121D5F90B00902152 /* FileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,10 +140,11 @@
 			isa = PBXGroup;
 			children = (
 				FC16965421D1F8E500C48487 /* Supporting Files */,
-				FC16964421D1F8C100C48487 /* ViewController.swift */,
 				FC16964621D1F8C100C48487 /* Main.storyboard */,
 				FC16964E21D1F8C300C48487 /* Info.plist */,
 				FC16967721D3230D00C48487 /* msds.db */,
+				FCBBC87D21D3481C00902152 /* MSDSTableViewController.swift */,
+				FCBBC88121D5F90B00902152 /* FileTableViewCell.swift */,
 			);
 			path = MSDS;
 			sourceTree = "<group>";
@@ -309,7 +312,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC16964521D1F8C100C48487 /* ViewController.swift in Sources */,
+				FCBBC87E21D3481C00902152 /* MSDSTableViewController.swift in Sources */,
+				FCBBC88221D5F90B00902152 /* FileTableViewCell.swift in Sources */,
 				FC16964321D1F8C100C48487 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
