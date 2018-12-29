@@ -19,7 +19,7 @@ class MSDSTableViewController: UITableViewController, UITextFieldDelegate {
     }
     let msds = Table("msds")
     let fileName = Expression<String?>("name")
-    let fieView = Expression<String?>("view")
+    let fileView = Expression<String?>("view")
     let fileDownload = Expression<String?>("download")
     
     var searchText: String? {
@@ -116,14 +116,20 @@ class MSDSTableViewController: UITableViewController, UITextFieldDelegate {
         return cell
     }
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        let controller = segue.destination as? FileWebView
+        let send = sender as? FileTableViewCell
+        let query = msds.filter(fileName == send!.file)
+        do {
+            if let file = try self.database.pluck(query) {
+                controller!.labelUrl = file[fileView]
+            }
+        } catch {
+            print(error)
+        }
     }
-    */
 
 }

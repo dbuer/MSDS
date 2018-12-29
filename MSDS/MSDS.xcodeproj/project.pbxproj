@@ -17,6 +17,7 @@
 		FC16967821D3230D00C48487 /* msds.db in Resources */ = {isa = PBXBuildFile; fileRef = FC16967721D3230D00C48487 /* msds.db */; };
 		FCBBC87E21D3481C00902152 /* MSDSTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBBC87D21D3481C00902152 /* MSDSTableViewController.swift */; };
 		FCBBC88221D5F90B00902152 /* FileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBBC88121D5F90B00902152 /* FileTableViewCell.swift */; };
+		FCBBC88821D7315C00902152 /* FileWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBBC88721D7315C00902152 /* FileWebView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +104,7 @@
 		FC16967721D3230D00C48487 /* msds.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = msds.db; path = ../../../example/msds.db; sourceTree = "<group>"; };
 		FCBBC87D21D3481C00902152 /* MSDSTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDSTableViewController.swift; sourceTree = "<group>"; };
 		FCBBC88121D5F90B00902152 /* FileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTableViewCell.swift; sourceTree = "<group>"; };
+		FCBBC88721D7315C00902152 /* FileWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileWebView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +145,7 @@
 				FC16964621D1F8C100C48487 /* Main.storyboard */,
 				FC16964E21D1F8C300C48487 /* Info.plist */,
 				FC16967721D3230D00C48487 /* msds.db */,
+				FCBBC88721D7315C00902152 /* FileWebView.swift */,
 				FCBBC87D21D3481C00902152 /* MSDSTableViewController.swift */,
 				FCBBC88121D5F90B00902152 /* FileTableViewCell.swift */,
 			);
@@ -313,6 +316,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FCBBC87E21D3481C00902152 /* MSDSTableViewController.swift in Sources */,
+				FCBBC88821D7315C00902152 /* FileWebView.swift in Sources */,
 				FCBBC88221D5F90B00902152 /* FileTableViewCell.swift in Sources */,
 				FC16964321D1F8C100C48487 /* AppDelegate.swift in Sources */,
 			);
