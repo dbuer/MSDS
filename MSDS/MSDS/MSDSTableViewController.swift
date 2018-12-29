@@ -35,15 +35,11 @@ class MSDSTableViewController: UITableViewController, UITextFieldDelegate {
     
     private func searchForFiles() {
         if let text = searchText, !text.isEmpty {
-            do {
-                let query = self.msds.filter(fileName.like("%\(text)%"))
-                let seq = try self.database.prepare(query)
-                let m = seq.map{ $0[fileName]! }
-                self.files.insert(m, at: 0)
-                self.tableView.insertSections([0], with: .fade)
-            } catch {
-                print(error)
-            }
+            let arbText = text.replacingOccurrences(of: " ", with: "%")
+            let query = self.msds.filter(fileName.like("%\(arbText)%"))
+            displayQuery(query)
+        } else {
+            displayQuery(msds)
         }
     }
     
@@ -69,9 +65,20 @@ class MSDSTableViewController: UITableViewController, UITextFieldDelegate {
             }
             
             self.database = try Connection(finalDatabaseURL.path);
-            let seq = try self.database.prepare(msds)
+            displayQuery(msds)
+        } catch {
+            print(error)
+        }
+    }
+    
+    func displayQuery(_ query: Table) {
+        do {
+            let seq = try self.database.prepare(query)
             let m = seq.map{ $0[fileName]! }
-            self.files.insert(m, at: 0)
+            DispatchQueue.main.async {
+                self.files.insert(m, at: 0)
+                self.tableView.insertSections([0], with: .fade)
+            }
         } catch {
             print(error)
         }
