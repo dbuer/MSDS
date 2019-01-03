@@ -14,7 +14,13 @@ class FileTableViewCell: UITableViewCell {
     
     var file: String? {
         didSet {
-            pesticideLabel?.text = file
+            pesticideLabel?.text = file!
+        }
+    }
+    
+    var offline: Bool? {
+        didSet {
+            downloadSwitch?.isOn = offline!
         }
     }
 }

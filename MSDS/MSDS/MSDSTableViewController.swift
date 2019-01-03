@@ -21,6 +21,7 @@ class MSDSTableViewController: UITableViewController, UITextFieldDelegate {
     let fileName = Expression<String?>("name")
     let fileView = Expression<String?>("view")
     let fileDownload = Expression<String?>("download")
+    let fileOffline = Expression<Int?>("offline")
     
     var searchText: String? {
         didSet {
@@ -53,7 +54,7 @@ class MSDSTableViewController: UITableViewController, UITextFieldDelegate {
             let finalDatabaseURL = documentsUrl.first!.appendingPathComponent("msds.db")
             
             if !( (try? finalDatabaseURL.checkResourceIsReachable()) ?? false) {
-                
+                print("copying")
                 let documentsURL = Bundle.main.resourceURL?.appendingPathComponent("msds.db")
                 
                 do {
@@ -61,7 +62,6 @@ class MSDSTableViewController: UITableViewController, UITextFieldDelegate {
                 } catch {
                     print("Couldn't copy file to final location!")
                 }
-                
             }
             
             self.database = try Connection(finalDatabaseURL.path);
@@ -110,10 +110,98 @@ class MSDSTableViewController: UITableViewController, UITextFieldDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "File", for: indexPath)
         //Configure cell
         let file = files[indexPath.section][indexPath.row]
+        var offline = false
+        let query = msds.filter(fileName == file)
+        
+        do {
+            if let row = try self.database.pluck(query) {
+                offline = row[fileOffline]! == 1
+            }
+        } catch {
+            print(error)
+        }
+        
         if let fileCell = cell as? FileTableViewCell {
+            fileCell.downloadSwitch?.tag = indexPath.row
+            fileCell.pesticideLabel?.tag = -1
             fileCell.file = file
+            fileCell.offline = offline
+            fileCell.downloadSwitch.addTarget(self, action: #selector(switchChanged(sender:)), for: UIControlEvents.valueChanged)
         }
         return cell
+    }
+    
+    @objc func switchChanged(sender: UISwitch) {
+        print("switched")
+        let value = sender.isOn ? 1 : 0
+        let row = sender.tag
+        let indexpath = IndexPath(row : row, section: 0)
+        let cell = tableView.cellForRow(at: indexpath)
+        let label = cell!.contentView.viewWithTag(-1) as? UILabel
+        let name = label!.text!
+        let query = msds.filter(fileName == name)
+        do {
+            try database.run(query.update(fileOffline <- value))
+        } catch {
+            print(error)
+        }
+        print("here")
+        
+        if (value == 1) {
+            var name = "default"
+            var urlstring = "https://www.apple.com"
+            do {
+                if let row = try self.database.pluck(query) {
+                    name = row[fileName]!.trimmingCharacters(in: .whitespaces)
+                    urlstring = row[fileDownload]!
+                }
+            } catch {
+                print(error)
+            }
+            
+            let documentsUrl:URL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let destinationFileUrl = documentsUrl.appendingPathComponent(name).appendingPathExtension("pdf")
+            let fileURL = URL(string: urlstring)
+            
+            let sessionConfig = URLSessionConfiguration.default
+            let session = URLSession(configuration: sessionConfig)
+            
+            let request = URLRequest(url:fileURL!)
+            
+            let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
+                if let tempLocalUrl = tempLocalUrl, error == nil {
+                    if let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                        print("Successfully downloaded. Status code: \(statusCode)")
+                    }
+                    
+                    do {
+                        try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
+                        try self.database.run(query.update(self.fileDownload <- name + ".pdf"))
+                        print(destinationFileUrl.absoluteString)
+                    } catch (let writeError) {
+                        print("Error creating a file \(destinationFileUrl) : \(writeError)")
+                    }
+                    
+                } else {
+                    print(error!);
+                }
+            }
+            task.resume()
+        } else {
+            do {
+                if let row = try self.database.pluck(query) {
+                    let filemanager = FileManager.default
+                    let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory,.userDomainMask,true)[0] as NSString
+                    let filePath = row[fileDownload]!
+                    let fileUrl = "https://greenbook.net/ajax/download/label/pdf?href=" + row[fileView]!
+                    try filemanager.removeItem(atPath: documentsPath.appendingPathComponent(filePath))
+                    try database.run(query.update(fileDownload <- fileUrl))
+                }
+            } catch {
+                print(error)
+            }
+            
+        }
     }
 
     // MARK: - Navigation
@@ -124,8 +212,14 @@ class MSDSTableViewController: UITableViewController, UITextFieldDelegate {
         let send = sender as? FileTableViewCell
         let query = msds.filter(fileName == send!.file)
         do {
-            if let file = try self.database.pluck(query) {
-                controller!.labelUrl = file[fileView]
+            if let row = try self.database.pluck(query) {
+                if (row[fileOffline] == 0) {
+                    controller!.url = URL(string: row[fileView]!)
+                } else {
+                    let filePath = row[fileDownload]!
+                    let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory,.userDomainMask,true)[0] as NSString
+                    controller!.url = URL(fileURLWithPath: documentsPath.appendingPathComponent(filePath))
+                }
             }
         } catch {
             print(error)
